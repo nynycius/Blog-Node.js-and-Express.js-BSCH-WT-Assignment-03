@@ -1,4 +1,5 @@
 // creating a basic express server
+const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan'); // to handle login
@@ -8,6 +9,7 @@ const connectDB = require('./config/db');
 //load config
 dotenv.config({ path: './config/config.env' });
 
+// initialize Database
 connectDB();
 
 // initialize the app
@@ -23,8 +25,10 @@ app.engine('.hbs', engine({ defaultLayout: 'main', extname: '.hbs' }));
 app.set('view engine', '.hbs');
 app.set('views', './views');
 
-//Router
+// Static folder to native css
+app.use(express.static(path.join(__dirname, 'public')));
 
+//Router
 app.use('/', require('./routes/index'));
 
 const PORT = process.env.PORT || 3000;

@@ -7,6 +7,8 @@ const { engine } = require('express-handlebars');
 const passport = require('passport');
 const session = require('express-session');
 const connectDB = require('./config/db');
+const createError = require('http-errors');
+const cookieParser = require('cookie-parser');
 
 //load config
 dotenv.config({ path: './config/config.env' });
@@ -47,6 +49,9 @@ app.use(
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
+
+//Cookies
+app.use(cookieParser());
 
 // Static folder to native css
 app.use(express.static(path.join(__dirname, 'public')));

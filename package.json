@@ -11,10 +11,13 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "connect-mongo": "^5.0.0",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-handlebars": "^7.0.4",
     "express-session": "^1.17.3",
+    "express-validator": "^6.15.0",
+    "http-errors": "^2.0.0",
     "method-override": "^3.0.0",
     "moment": "^2.29.4",
     "mongoose": "^7.0.3",
@@ -22,7 +25,8 @@
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "req-flash": "^0.0.3"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",

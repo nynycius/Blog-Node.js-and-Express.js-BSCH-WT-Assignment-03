@@ -1,4 +1,4 @@
-   <div class="card m-5 p-3 text-center" style= "width: 18rem;"> 
+<div class="card m-5 p-3 text-center" style= "width: 18rem;"> 
   <div class="card-tile center">
     <h3> <i class="fa-sharp fa-solid fa-tv fa-beat"></i> Anime Blog Login</h3>
   </div>
@@ -7,23 +7,30 @@
 
   <!-- divider in boostrap is <hr>-->
   <hr>
-
-    
-<form action="/users/register" method="post">
+ <!-- check include for validations 
+ <% include ("./partials/messages"); %> -->     
+ <form action="/users/register" method="post">
     <div class="form-group">
      <label>Email</label>
-     <input type="text" class="form-control" name="email">
+     <input type="text" class="form-control" name="email" placeholder="Email">
     </div>
     
     <div class="form-group">
      <label>Name</label>
-     <input type="text" class="form-control" name="name">
+     <input type="text" class="form-control" name="name" placeholder="Enter Name"
     </div> 
     
     <div class="form-group">
      <label>Password</label>
-     <input type="text" class="form-control" name="password">
+     <input type="text" class="form-control" name="password" placeholder="Password">
     </div>
+
+     <div class="form-group">
+     <label>Confirm Password</label>
+     <input type="text" class="form-control" name="passwordConf" placeholder="Confirm Password">
+    </div>
+
+    <hr>
 
     <button type="submit" class="btn btn-outline-danger">Register</button>
    </form>

@@ -20,6 +20,10 @@ connectDB();
 // initialize the app
 const app = express();
 
+// Body parser < used to reetive object from forms
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 // logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -36,7 +40,7 @@ app.use(
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false,
-    // store mago
+    // store mongo
   })
 );
 
@@ -49,6 +53,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Router
 app.use('/', require('./routes/index'));
+app.use('/users', require('./routes/users.js'));
 
 const PORT = process.env.PORT || 3000;
 

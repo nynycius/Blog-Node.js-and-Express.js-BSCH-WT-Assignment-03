@@ -1,4 +1,11 @@
+body {
+  font-family: 'Helvetica Neue', Helvetica, 'Times NewRoman', Arial;
+  padding: none;
+  margin: 0 auto;
+  color: white;
+  background-color: #528aae;
+}
+
 p {
   color: red;
 }
-

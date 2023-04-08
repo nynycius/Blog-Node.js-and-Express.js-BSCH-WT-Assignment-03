@@ -39,58 +39,59 @@ router.post('/register', (req, res) => {
       password,
       passwordConf,
     });
-  } else {
-    const newUser = new User({
-      name,
-      email,
-      password,
+  } else {  // check if email already
+    User.findOne({ email: email }).then(user => {
+      if (user) {
+        errors.push({ msg: 'Email already exists' });
+        res.render('register', {
+          errors,
+          name,
+          email,
+          password,
+          passwordConf
+        });
+      } else {    // store user in the database
+        const newUser = new User({
+          name,
+          email,
+          password
+        });
+        // encrypt password 
+        bcrypt.genSalt(10, (err, salt) => {    
+          bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) throw err;
+            newUser.password = hash;
+            newUser
+              .save()
+              .then(user => {
+                req.flash(
+                  'success_msg',
+                  'You are now registered and can log in'
+                );
+                res.redirect('/users/login');
+              })
+              .catch(err => console.log(err));
+          });
+        });
+      }
     });
-
-    res.send('hello');
-
-    console.log(newUser);
-
-    // Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client  << check error
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(newUser.password, salt, (err, hash) => {
-        if (err) throw err;
-        newUser.password = hash;
-        newUser
-          .save()
-          .then((user) => {
-            req.flash('success_msg', 'You are now registered and can log in');
-            res.redirect('/users/login');
-          })
-          .catch((err) => console.log('this error >>>' + err));
-      });
-    });
-
-    res.send('Added');
-
-    // validation passed
-    // User.findOne({ email: email }).then((user) => {
-    //   if (user) {
-    //     // Warning if user exists already
-    //     errors.push({ msg: 'Email already exists' });
-    //     res.render('register', {
-    //       errors,
-    //       name,
-    //       email,
-    //       password,
-    //       passwordConf,
-    //     });
-    //   } else {
-    //     const newUser = new User({
-    //       name,
-    //       email,
-    //       password,
-    //     });
-
-    //     console.log(newUser);
-    //     res.send('hello');
-    //   }
-    // });
   }
+});
+
+// Login
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', {
+    successRedirect: '/register',
+    failureRedirect: '/users/login',
+    failureFlash: true
+  })(req, res, next);
+});
+
+// Logout
+router.get('/logout', (req, res) => {
+  req.logout();
+  req.flash('success_msg', 'You are logged out');
+  res.redirect('/users/login');
 });
 
 module.exports = router;

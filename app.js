@@ -9,6 +9,10 @@ const session = require('express-session');
 const connectDB = require('./config/db');
 const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
+const flash = require('connect-flash');
+
+// to store credentions on sessions 
+const MongoStore = require('connect-mongo');
 
 //load config
 dotenv.config({ path: './config/config.env' });
@@ -42,9 +46,21 @@ app.use(
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false,
-    // store mongo
+    store: MongoStore.create({mongoUrl: process.env.MONGO_URI,}),
   })
 );
+
+//Connect flash and set Global variables
+app.use(flash());
+
+// Global variables
+app.use(function(req, res, next) {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  next();
+});
+
 
 // Passport middleware
 app.use(passport.initialize());
@@ -58,7 +74,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Router
 app.use('/', require('./routes/index'));
-app.use('/users', require('./routes/users.js'));
+app.use('/users', require('./routes/users'));
+// app.use('/auth', require('./routes/auth'));
 
 const PORT = process.env.PORT || 3000;
 

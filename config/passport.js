@@ -7,9 +7,10 @@ const bcrypt = require('bcryptjs');
 // load user model
 const User = require('../models/User');
 
-module.exports = function (passport) {
+module.exports = async function (passport) {
   passport.use(
-    new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
+    new LocalStrategy({ usernameField: 'email' }, 
+    async (email, password, done) => {
       // Match user
       User.findOne({
         email: email,
@@ -32,12 +33,12 @@ module.exports = function (passport) {
   );
 
   passport.serializeUser(function (user, done) {
-    done(null, user.id);
+    done(null, user);
   });
 
-  passport.deserializeUser(function (id, done) {
-    User.findById(id, function (err, user) {
-      done(err, user);
-    });
+  passport.deserializeUser((id, done) => {
+       User.findById(id)
+      .then(user => done (null, user))
+      console.log(id)
   });
 };

@@ -1,7 +1,4 @@
-
-
-
-<div class="card m-5 p-3 text-center" style= "width: 18rem;"> 
+<div class="card m-5 p-3 text-center" style="width: 18rem;">
   <div class="card-tile center">
     <h3> <i class="fa-sharp fa-solid fa-tv fa-beat"></i> Anime Blog Login</h3>
   </div>
@@ -10,10 +7,19 @@
 
   <!-- divider in boostrap is <hr>-->
   <hr>
-
-  <a href="/auth/google" class="btn btn-outline-danger">
-    <i class="fab fa-google left"></i>
-    Login with google
-  </a>
-
+  <% include ./partials/messages %>
+    <form action="/users/login" method="POST">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email" />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password" />
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Login</button>
+    </form>
+    <p class="lead mt-4">
+      No Account? <a href="/users/register">Register</a>
+    </p>
 </div>

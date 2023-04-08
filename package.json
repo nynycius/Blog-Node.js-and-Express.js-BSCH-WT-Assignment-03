@@ -10,6 +10,7 @@
   "author": "Vinicius Pepe Bellomo, 3052662 BSCH-WT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
     "connect-mongo": "^5.0.0",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",

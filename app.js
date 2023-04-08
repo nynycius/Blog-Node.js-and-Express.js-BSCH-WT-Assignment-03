@@ -44,11 +44,16 @@ app.set('views', './views');
 app.use(
   session({
     secret: 'keyboard cat',
-    resave: false,
+    resave: true,
     saveUninitialized: false,
     store: MongoStore.create({mongoUrl: process.env.MONGO_URI,}),
   })
 );
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 //Connect flash and set Global variables
 app.use(flash());
@@ -61,10 +66,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-
-// Passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
 
 //Cookies
 app.use(cookieParser());

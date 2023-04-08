@@ -6,12 +6,25 @@ const flash = require('req-flash');
 
 //User moder
 const User = require('../models/User');
+const { ensureGuest, ensureAuth } = require('../middleware/auth');
 
-//login Page
-router.get('/login', (req, res) => res.render('login'));
+//@desc login Passport-local authetication
+//@route GET /login
+router.get('/login', ensureGuest, (req, res) => res.render('login'));
+
+//@desc login Passport-local authetication
+//@route POST /login
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', {
+    successRedirect: '/dashboard',
+    failureRedirect: '/users/register',
+    failureFlash: true
+  })(req, res, next);
+});
+
 
 //Register Page
-router.get('/register', (req, res) => res.render('register'));
+router.get('/register', ensureGuest, (req, res) => res.render('register'));
 
 // Register
 // pass simple validation
@@ -50,7 +63,7 @@ router.post('/register', (req, res) => {
           password,
           passwordConf
         });
-      } else {    // store user in the database
+      } else {    // create and store user in the database
         const newUser = new User({
           name,
           email,
@@ -61,7 +74,7 @@ router.post('/register', (req, res) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
             newUser.password = hash;
-            newUser
+            newUser   
               .save()
               .then(user => {
                 req.flash(
@@ -78,20 +91,16 @@ router.post('/register', (req, res) => {
   }
 });
 
-// Login
-router.post('/login', (req, res, next) => {
-  passport.authenticate('local', {
-    successRedirect: '/register',
-    failureRedirect: '/users/login',
-    failureFlash: true
-  })(req, res, next);
-});
 
-// Logout
-router.get('/logout', (req, res) => {
-  req.logout();
-  req.flash('success_msg', 'You are logged out');
-  res.redirect('/users/login');
+//@desc Logout user
+//@route GET
+router.get('/logout', ( req, res, next) => {
+  // with passport, after login we get a logout method 
+  req.logout((err) =>{
+    if(err) { return next(err)}
+    req.flash('success_msg', 'You are logged out'),
+    res.redirect('/users/login')
+  }); 
 });
 
 module.exports = router;

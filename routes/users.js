@@ -26,8 +26,8 @@ router.post('/login', (req, res, next) => {
 //Register Page
 router.get('/register', ensureGuest, (req, res) => res.render('register'));
 
-// Register
-// pass simple validation
+//@Desc Register, pass simple validation
+//@route POST 
 router.post('/register', (req, res) => {
   const { email, name, password, passwordConf } = req.body;
   let errors = [];

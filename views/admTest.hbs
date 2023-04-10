@@ -1,0 +1,62 @@
+<br>
+<br>
+
+<h2>Welcome Admin {{name}} </h2>
+
+
+
+<h2> Users </h2>
+
+{{#each users}}
+<hr>
+<p>{{email}}</p>
+<p>{{name}}</p>
+<p>{{formatDate date 'MMMM Do YYYY, h:mm:ss a' }}</p>
+<p>{{adm}}</p>
+<br>
+{{/each}}
+
+<h2> BlogPost </h2>
+
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+
+  {{#each blogPost}}
+
+  
+  {{!-- {{{editIcon user.id ./user.id _id}}} --}}
+
+
+  <div class="col">
+    <div class="card">
+      <img src="..." class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{title}}</h5>
+        <h7 class="card-subtitle">{{subtitle}}</h5>
+          <p class="card-text"> {{content}} </p>
+          
+          <div class="cotainer d-flex justify-content-evenly">
+            
+            <a href="/adm/edit/{{_id}}">
+            <i class="btn btn-success" > Upadate </i> </a>
+            
+            <button type="button" class="btn btn-danger"> Delete</button>
+
+          </div>
+
+          <div class="card-footer">
+            <small class="text-muted"> Created by {{user.name}}, On {{formatDate date 'MMMM Do YYYY, h:mm:ss a' }}
+            </small>
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+  {{else}}
+  <hr>
+  <p>No Posts yet</p>
+  <br>
+  {{/each}}
+
+</div>

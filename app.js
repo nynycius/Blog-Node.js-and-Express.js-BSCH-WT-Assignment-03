@@ -11,6 +11,16 @@ const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 
+
+// Method overrride to handle upadate method
+const methodOverride = require('method-override')
+
+// handlebars Helpers
+const { formatDate, editIcon } = require('./helpers/hbs')
+
+// middleware to be used in tthe nav-bar permissions
+const { ensureAuth, ensureGuest, ensureAdm } = require('./middleware/auth');
+
 // to store credentions on sessions 
 const MongoStore = require('connect-mongo');
 
@@ -30,13 +40,36 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+// method Override function
+app.use(
+  methodOverride(function (req, res) {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+      // look in urlencoded POST bodies and delete it
+      let method = req.body._method
+      delete req.body._method
+      return method
+    }
+  })
+)
+
 // logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+
 // Handlebars
-app.engine('.hbs', engine({ defaultLayout: 'main', extname: '.hbs' }));
+app.engine(
+  '.hbs', 
+  engine({
+    helpers: {
+      formatDate,
+      editIcon,
+  },
+   defaultLayout: 'main', 
+   extname: '.hbs',
+  })
+);
 app.set('view engine', '.hbs');
 app.set('views', './views');
 
@@ -46,7 +79,7 @@ app.use(
     secret: 'keyboard cat',
     resave: true,
     saveUninitialized: false,
-    store: MongoStore.create({mongoUrl: process.env.MONGO_URI,}),
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI, }),
   })
 );
 
@@ -59,10 +92,11 @@ app.use(passport.session());
 app.use(flash());
 
 // Global variables
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error');
+  res.locals.user = req.user || null
   next();
 });
 
@@ -76,7 +110,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Router
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
-// app.use('/auth', require('./routes/auth'));
+app.use('/adm', require('./routes/adm'));
 
 const PORT = process.env.PORT || 3000;
 

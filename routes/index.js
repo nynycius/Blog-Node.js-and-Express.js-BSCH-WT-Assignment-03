@@ -1,17 +1,35 @@
 const express = require('express');
 const router = express.Router();
+const { ensureAuth, ensureGuest, ensureAdm } = require('../middleware/auth');
+
+// models
 const User = require('../models/User');
-const { ensureAuth, ensureGuest } = require('../middleware/auth');
+const BlogPost = require('../models/BlogPost');
 
 // @desc  home/landing page
 //@route GET /
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find({}).limit(10).sort({date: 'desc'}).lean();
-    console.log(users)
+    const blogPost = await BlogPost.find({}).limit(10).sort({date: 'desc'}).populate('user').lean();
     res.render('home', {
       layout: 'main',
+      blogPost,
+    })
+  } catch (err) {
+      console.log(err)
+  }
+})
+
+// @desc  adm/dashboard
+//@route GET /admTest
+router.get('/admTest', ensureAdm, async (req, res) => {
+  try {
+    const users = await User.find({}).limit(10).sort({date: 'desc'}).lean();
+    console.log(users)
+    res.render('admTest', {
+      layout: 'main',
       users,
+      name: req.user.name,
 
     })
   } catch (err) {

@@ -14,7 +14,7 @@ router.get('/show/:id', async (req, res) => {
   try {
     const blogPost = await BlogPost.findById(req.params.id).populate('user').lean()
     const related = await BlogPost.find({}).limit(3).sort().populate('user').lean(); //TODO implement tags
-    const comment = await Comment.find({blogPost: req.params.id}).populate('user').lean(); // find comment based on current post 
+    const comment = await Comment.find({ blogPost: req.params.id }).populate('user').lean(); // find comment based on current post 
 
     if (!blogPost) {
       return res.send('Error 404, Post not find')
@@ -32,19 +32,7 @@ router.get('/show/:id', async (req, res) => {
 })
 
 
-// @desc  Add comment  
-//@route GET /comment
-router.get('/comment', ensureAuth, async (req, res) => {
-  try {
-    res.render('comment', {
-     name: req.user.name,  
-    })
-  } catch (err) {
-      console.log(err)
-  }
-});
-
-// @desc    Process comment form
+// @desc    Process comment form, always from blogPost/show/:id page
 // @route   POST blogPost/add
 router.post('/add', ensureAuth, async (req, res) => {
   try {
@@ -57,8 +45,83 @@ router.post('/add', ensureAuth, async (req, res) => {
   }
 });
 
+// @desc  Edit comment  
+//@route GET blogPost/edit/:id
+router.get('/edit/:id', ensureAuth, async (req, res) => {
+  try {
+    const comment = await Comment.findById(req.params.id).populate('user').lean(); // find comment based on current
+    const blogPost = await BlogPost.findById(comment.blogPost).populate('user').lean()
+    res.render('blogPost/commentEdit', {
+      comment,
+      blogPost,
+    })
+  } catch (err) {
+    console.log(err)
+  }
+});
+
+// @desc    Update comment form
+// @route   PUT blogPost/edit/:id
+router.put('/edit/:id', ensureAuth, async (req, res) => {
+  try {
+    let comment = await Comment.findById(req.params.id).lean()
+
+    if (!comment) {
+      return res.send('comment do not exist')
+    }
+    console.log(req.user.adm)
+    if (comment.user != req.user.id || req.user.adm === 'false') {
+      return res.send(' not your comment, you can only edit your own comments')
+    }
+    else {
+      comment = await Comment.findOneAndUpdate({
+        _id: req.params.id
+      },
+        req.body, {
+        new: true,
+        runValidators: true
+      }
+      )
+
+      res.redirect('/blogSpot/')
+    }
+  } catch (err) {
+    console.log(err)
+    res.send('something else happen')
+  }
+});
+
+
+// @desc    Delete comment
+// @route   Delete blogPost/:id
+router.delete('/:id', ensureAuth, async (req, res) => {
+  try {
+    let comment = await Comment.findById(req.params.id).lean()
+
+    if (!comment) {
+      return res.send('story do not exist')
+    }
+
+    if (comment.user != req.user.id || req.user.adm === 'false') {
+      return res.send(' not your comment, you can only Delete your own comments')
+    }
+    else {
+      comment = await Comment.findOneAndRemove({
+        _id: req.params.id
+      },
+        req.body, {
+        new: true,
+        runValidators: true
+      }
+      )
+      res.redirect('/blogPost')
+    }
+
+  } catch (err) {
+    console.log(err)
+    res.send('something else happen')
+  }
+});
 
 
 module.exports = router;
-
-

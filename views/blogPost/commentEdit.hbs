@@ -1,0 +1,14 @@
+<br>
+<h3> Edit comment made on {{formatDate comment.date 'MMMM Do YYYY'}} by {{comment.user.name}} on blogPost {{blogPost.title}} </h3>
+
+<form action="/blogPost/edit/{{comment._id}}" method="POST" class="col align-center">
+<input type="hidden" name="_method" value="PUT">
+
+  <textarea name="comment" id="comment" cols="150" rows="10">{{comment.comment}}</textarea>
+
+  <div>
+    <input type="submit" value="Submit" class="btn btn-primary btn-block">
+
+  </div>
+
+</form>

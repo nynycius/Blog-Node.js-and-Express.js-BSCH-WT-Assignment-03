@@ -88,7 +88,7 @@ router.put('/:id', ensureAdm, async (req, res) => {
        let blogPost = await BlogPost.findById(req.params.id).lean()
 
        if(!blogPost){
-        return res.send('story do not exist')
+        return res.send('BlogPost do not exist')
        }   
        else{
         blogPost = await BlogPost.findOneAndUpdate({
@@ -114,7 +114,7 @@ router.delete('/:id', ensureAdm, async (req, res) => {
        let blogPost = await BlogPost.findById(req.params.id).lean()
 
        if(!blogPost){
-        return res.send('story do not exist')
+        return res.send('BlogPost do not exist')
        }   
        else{
         blogPost = await BlogPost.findOneAndRemove({

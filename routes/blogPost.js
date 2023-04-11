@@ -8,14 +8,32 @@ const BlogPost = require('../models/BlogPost');
 const Comment = require('../models/Comment');
 
 
+
+// @desc  blogPost/index  display all posts 
+//@route GET blogPost/idex
+router.get('/index', async (req, res) => {
+  try {
+    const blogPost = await BlogPost.find({}).sort({date: 'desc'}).populate('user').lean();
+    res.render('blogPost/index', {
+      layout: 'main',
+      blogPost,
+
+    })
+  } catch (err) {
+      console.log(err)
+      res.send('error happened, blogPost/index')
+  }
+});
+
+
 // @desc    Show single blogPost
 // @route   GET /stories/:id
 router.get('/show/:id', async (req, res) => {
   try {
     const blogPost = await BlogPost.findById(req.params.id).populate('user').lean()
-    const related = await BlogPost.find({}).limit(3).sort().populate('user').lean(); //TODO implement tags
+    const related = await BlogPost.find({tag: blogPost.tag }).limit(3).sort().populate('user').lean(); //Find 3 posts with same tag 
     const comment = await Comment.find({ blogPost: req.params.id }).populate('user').lean(); // find comment based on current post 
-
+  
     if (!blogPost) {
       return res.send('Error 404, Post not find')
     } else {

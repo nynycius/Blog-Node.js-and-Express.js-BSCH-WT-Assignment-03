@@ -40,7 +40,7 @@
 </div>
 
 
-
+{{!-- comment display --}}
 <br>
 <h3>Comments Section</h3>
 
@@ -58,7 +58,7 @@
           <div class="cotainer d-flex justify-content-evenly">
 
             <a href="/blogPost/edit/{{_id}}">
-              <i class="btn btn-success fas fa-edit"> Upadate </i> </a>
+              <i class="btn btn-success fas fa-edit"> Edit </i> </a>
 
             <form action="/blogPost/{{_id}}" method="POST" id="delete-form">
               <input type="hidden" name="_method" value="DELETE">

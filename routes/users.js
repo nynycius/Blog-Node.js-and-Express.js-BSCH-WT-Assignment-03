@@ -6,7 +6,7 @@ const flash = require('req-flash');
 
 //User moder
 const User = require('../models/User');
-const { ensureGuest, ensureAuth } = require('../middleware/auth');
+const { ensureGuest, ensureAuth, ensureAdm } = require('../middleware/auth');
 
 //@desc login Passport-local authetication
 //@route GET /login
@@ -128,16 +128,16 @@ router.get('/edit/:id', ensureAuth, async (req, res) => {
 
 // @desc    Update user 
 // @route   PUT user/edit/:id
-router.put('/:id', ensureAuth, async (req, res) => {
+router.put('/:id', ensureAdm, async (req, res) => {
   try {
     let user = await User.findById(req.params.id).lean()
     
     // TODO: fix, must encrypte password when updating database, not working properly <<
     // guarantee only adm and owner change user
-    if ( req.user.adm != 'true' || user.user != req.user.id  ) {
-      console.log('adm check', req.user.adm )
-      return res.send(' Not allowed to update others users profile')
-    }
+    // if ( req.user.adm || user.user != req.user.id  ) {
+    //   console.log('adm check', req.user.adm )
+    //   return res.send(' Not allowed to update others users profile')
+    // }
 
     if (!user) {
       return res.send('user do not exist')

@@ -3,6 +3,12 @@
 
 <h2>Welcome Admin {{name}} </h2>
 
+<hr>
+<h1> Add New Post</h1>
+
+<div class="justify-content-center">
+<a href="/adm/add"><i class="fa-sharp fa-solid fa-tv fa-beat  btn btn-primary btn-block"> Add New Post</i></a>
+</div>
 
 <hr>
 <h2> Users </h2>
@@ -66,7 +72,7 @@
 
   <div class="col">
     <div class="card">
-      <img src="{{image}}" class="card-img-top" alt="...">
+      <img src="{{image}}" class=" img-small" alt="{{tag}}">
       <div class="card-body">
         <h5 class="card-title">
           <a href="/blogPost/show/{{_id}}">

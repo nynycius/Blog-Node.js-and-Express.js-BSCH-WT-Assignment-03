@@ -1,0 +1,39 @@
+
+<br>
+<h2> Here you will find all Post!</h2>
+<hr>
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+
+  {{#each blogPost}}
+
+  <div class="col">
+    <div class="card bg-dark text-light ">
+      <img src="{{image}}" class="img-small" alt="...">
+      <div class="card-body">
+        <h5 class="card-title ">{{title}}</h5>
+        <h7 class="card-subtitle ">{{subtitle}}</h5>
+          <p class="card-text "> {{truncate content 200}} </p>
+
+          <div class="cotainer d-flex justify-content-left">
+
+            <a href="/blogPost/show/{{_id}}">
+              <i class="btn btn-primary"> Read More </i> </a>
+              <hr>
+
+          </div>
+
+          <div class="card-footer">
+            <small class="text"> Created by {{user.name}}, On {{formatDate date 'MMMM Do YYYY, h:mm:ss a' }}
+            </small>
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+  {{else}}
+  <hr>
+  <p>No Posts yet</p>
+  <br>
+  {{/each}}

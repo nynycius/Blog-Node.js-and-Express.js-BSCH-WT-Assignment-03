@@ -1,50 +1,60 @@
 <br>
 <div class="d-lg-flex  m-5 p-2 justify-content-left">
     <div class="row">
-    <h3>Add Story</h3>
-    <div class="form-group">
-        <form action="/adm/add" method="POST" class="col align-center">
-            <div class="row">
-                <div class="input-field">
-                    <label for="title">Title</label>
-                    <br>
-                    <input type="text" id="title" name="title" required>
+        <h3>Add Story</h3>
+        <div class="form-group">
+            <form action="/adm/add" method="POST" class="col align-center">
+                <div class="row">
+                    <div class="input-field">
+                        <label for="title">Title</label>
+                        <br>
+                        <input type="text" id="title" name="title" required>
 
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="input-field">
-                    <label for="subtitle">Subtitle</label>
-                    <br>
-                    <input type="text" id="subtitle" name="subtitle" required>
+                <div class="row">
+                    <div class="input-field">
+                        <label for="subtitle">Subtitle</label>
+                        <br>
+                        <input type="text" id="subtitle" name="subtitle" required>
 
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="input-field">
-                    <label for="image">Image</label>
-                    <br>
-                    <input type="text" id="image" name="image">
 
+                <div class="row">
+                    <div class="input-field">
+                        <label for="tag">Tag</label>
+                        <br>
+                        <input type="text" id="tag" name="tag">
+
+                    </div>
                 </div>
-            </div>
 
-            <br>
-            <div class="row">
-                <div class="input-field ">
-                    <h5>BlogPost Content:</h5>
-                    <textarea id="content" name="content" cols="150" rows="10" required></textarea>
+                <div class="row">
+                    <div class="input-field">
+                        <label for="image">Image</label>
+                        <br>
+                        <input type="text" id="image" name="image">
+
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <input type="submit" value="Save" class="btn btn-primary btn-block">
                 <br>
-                <a href="/" class="btn btn-outline-danger">Cancel</a>
-            </div>
-        </form>
+                <div class="row">
+                    <div class="input-field ">
+                        <h5>BlogPost Content:</h5>
+                        <textarea id="content" name="content" cols="150" rows="10" required></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <input type="submit" value="Save" class="btn btn-primary btn-block">
+                    <br>
+                    <a href="/" class="btn btn-outline-danger">Cancel</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 </div>

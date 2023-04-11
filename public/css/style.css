@@ -10,3 +10,11 @@ p {
   color: red;
 }
 
+
+.img-small {
+  width: 28rem !important;
+}
+
+.about-us {
+  font-size: 25px !important;
+}

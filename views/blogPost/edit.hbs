@@ -1,48 +1,61 @@
 <br>
-<h3>Edit Story</h3>
-<div class="form-group">
-    <form action="/adm/{{blogPost._id}}" method="POST" class="col s12">
-        <input type="hidden" name="_method" value="PUT">
-        <div class="row">
-            <div class="input-field">
-                <label for="title">Title</label>
+<div class="d-lg-flex  m-5 p-2 justify-content-left">
+    <div class="row">
+        <h3>Edit Story</h3>
+        <div class="form-group">
+            <form action="/adm/{{blogPost._id}}" method="POST" class="col s12">
+                <input type="hidden" name="_method" value="PUT">
+                <div class="row">
+                    <div class="input-field">
+                        <label for="title">Title</label>
+                        <br>
+                        <input type="text" id="title" name="title" value="{{blogPost.title}}" required>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field">
+                        <label for="subtitle">Subtitle</label>
+                        <br>
+                        <input type="text" id="subtitle" value="{{blogPost.subtitle}}" required>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field">
+                        <label for="tag">Tag</label>
+                        <br>
+                        <input type="text" id="tag" name="tag" value="{{blogPost.tag}}">
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field">
+                        <label for="image">Image</label>
+                        <br>
+                        <input type="text" id="image" name="image" value="{{blogPost.image}}">
+
+                    </div>
+                </div>
+
                 <br>
-                <input type="text" id="title" name="title" value = "{{blogPost.title}}" required>
-
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="input-field">
-                <label for="subtitle">Subtitle</label>
-                <br>
-                <input type="text" id="subtitle" name="subtitle" value = "{{blogPost.subtitle}}"required>
-
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="input-field">
-                <label for="image">Image</label>
-                <br>
-                <input type="text" id="image" name="image">
-
-            </div>
-        </div>
-
-        <br>
-        <div class="row">
-            <div class="input-field">
-                <h5>BlogPost Content:</h5>
-                <textarea id="content" name="content" required>{{blogPost.content}}
+                <div class="row">
+                    <div class="input-field">
+                        <h5>BlogPost Content:</h5>
+                        <textarea id="content" name="content" name="subtitle" cols="150" rows="10" required>{{blogPost.content}}
                 </textarea>
-            </div>
-        </div>
+                    </div>
+                </div>
 
-        <div class="row">
-            <input type="submit" value="Save" class="btn btn-primary btn-block">
-            <br>
-            <a href="/" class="btn btn-outline-danger">Cancel</a>
+                <div class="row">
+                    <input type="submit" value="Save" class="btn btn-primary btn-block">
+                    <br>
+                    <a href="/" class="btn btn-outline-danger">Cancel</a>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>

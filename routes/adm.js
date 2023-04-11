@@ -12,12 +12,12 @@ const BlogPost = require('../models/BlogPost');
 // TODO: dashboard with posts and users for edit and delete
 
 // @desc  adm/dashboard
-//@route GET /admTest
+//@route GET /admDashboard
 router.get('/dashboard', ensureAdm, async (req, res) => {
     try {
-      const blogPost = await BlogPost.find({}).limit(10).sort({date: 'desc'}).populate('user').lean();
-      const users = await User.find({}).limit(10).sort({date: 'desc'}).lean();
-      res.render('admTest', {
+      const blogPost = await BlogPost.find({}).sort({date: 'desc'}).populate('user').lean();
+      const users = await User.find({}).sort({date: 'desc'}).lean();
+      res.render('admDashboard', {
         layout: 'main',
         name: req.user.name,
         user: req.user.id,
@@ -27,7 +27,7 @@ router.get('/dashboard', ensureAdm, async (req, res) => {
       })
     } catch (err) {
         console.log(err)
-        res.send('error happened, admTest')
+        res.send('error happened, admDashboard')
     }
   });
 

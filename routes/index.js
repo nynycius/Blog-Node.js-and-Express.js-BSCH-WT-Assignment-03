@@ -20,22 +20,6 @@ router.get('/', async (req, res) => {
   }
 })
 
-// @desc  adm/dashboard
-//@route GET /admTest
-router.get('/admTest', ensureAdm, async (req, res) => {
-  try {
-    const users = await User.find({}).limit(10).sort({date: 'desc'}).lean();
-    console.log(users)
-    res.render('admTest', {
-      layout: 'main',
-      users,
-      name: req.user.name,
-
-    })
-  } catch (err) {
-      console.log(err)
-  }
-})
 
 // @desc  Dashboard
 //@route GET /login

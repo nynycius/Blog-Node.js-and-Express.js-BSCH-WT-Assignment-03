@@ -33,7 +33,7 @@ router.get('/dashboard', ensureAdm, async (req, res) => {
 
 // admins controls for BlogPost
 
-// @desc  Add story 
+// @desc  Add BlogPost 
 //@route GET /add
 router.get('/add', ensureAdm, async (req, res) => {
     try {
@@ -68,7 +68,7 @@ router.post('/add', ensureAdm, async (req, res) => {
        }).lean()
 
        if(!blogPost){
-        return res.send('story do not exist')
+        return res.send('blogPost do not exist')
        }   
        else{
         res.render('blogPost/edit', {
@@ -81,7 +81,7 @@ router.post('/add', ensureAdm, async (req, res) => {
     }
   });
 
-  // @desc    Update edit form
+// @desc    Update edit form
 // @route   PUT adm/edit/:id
 router.put('/:id', ensureAdm, async (req, res) => {
     try {
@@ -101,6 +101,32 @@ router.put('/:id', ensureAdm, async (req, res) => {
 
         res.redirect('/')
        }
+    } catch (err) {
+        console.log(err)
+        res.send('something else happen')
+    }
+  });
+
+// @desc    Delete blogPost
+// @route   Delete adm/:id
+router.delete('/:id', ensureAdm, async (req, res) => {
+    try {
+       let blogPost = await BlogPost.findById(req.params.id).lean()
+
+       if(!blogPost){
+        return res.send('story do not exist')
+       }   
+       else{
+        blogPost = await BlogPost.findOneAndRemove({
+            _id: req.params.id},
+            req.body,{
+                new: true,
+                runValidators: true
+            }
+        )
+        res.redirect('/')
+       }
+
     } catch (err) {
         console.log(err)
         res.send('something else happen')

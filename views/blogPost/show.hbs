@@ -1,0 +1,85 @@
+<br><br>
+<div class="row">
+    {{!-- post body content --}}
+    <div class="col-8 container-fluid">
+        <div class=" has-bg-image">
+            <h3>{{blogPost.title}}
+            </h3>
+
+            <img src="{{blogPost.image}}" class="d-block img-fluid">
+
+        </div>
+        <div class="card story">
+            <div class="card-content">
+                <span class="card-title text-muted">{{formatDate blogPost.date 'MMMM Do YYYY, h:mm:ss a'}}, Created by
+                    {{blogPost.user.name}}</span>
+                <hr>
+                {{blogPost.content}}
+            </div>
+        </div>
+    </div>
+
+    {{!-- more posts --}}
+    <div class="col-4">
+        <div class="card">
+            <div class="card-content">
+                <h3 class="card-title">Related Posts</h3>
+
+                {{#each related}}
+                <hr>
+                <div class="container row">
+                    <img src="{{image}}" class="col-4 img-fluid">
+                    <h5 class="col-8"><a href="/blogPost/show/{{_id}}">
+                            {{title}}
+                        </a></h5>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<br>
+<h3>Comments Section</h3>
+
+<hr>
+
+<div class="container ">
+    <hr>
+
+    {{#each comment}}
+    <div class="card justify-content-center" style="width: 18rem">
+        <div class="card-body">
+            <p class="text-muted"> {{user.name}} commented on {{formatDate date 'MMMM Do YYYY, h:mm:ss a'}}</p>
+            <p><br>{{comment}}</p>
+        </div>
+        
+    </div>
+    <hr>
+    {{else}}
+
+    <h5>No comments yet, be the first one (You must be logged in to comment)</h5>
+
+    {{/each}}
+
+
+
+    <br>
+    <br>
+    {{!-- comments section --}}
+    <h3> Add comment </h3>
+    <h5>**You must be logged in to comment**</h5>
+
+    <div class="cotainer d-flex justify-content-left">
+        <form action="/blogPost/add" method="POST" class="col align-center">
+            <textarea name="comment" id="comment" cols="100" rows="5"></textarea>
+            <input type="hidden" name="blogPost" id="blogPost" value="{{blogPost._id}}">
+            <div>
+                <input type="submit" value="Submit" class="btn btn-primary btn-block">
+
+            </div>
+        </form>
+    </div>
+</div>

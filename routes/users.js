@@ -27,7 +27,7 @@ router.post('/login', (req, res, next) => {
 router.get('/register', ensureGuest, (req, res) => res.render('register'));
 
 //@Desc Register, pass simple validation
-//@route POST 
+//@route POST /register
 router.post('/register', (req, res) => {
   const { email, name, password, passwordConf } = req.body;
   let errors = [];
@@ -70,11 +70,11 @@ router.post('/register', (req, res) => {
           password
         });
         // encrypt password 
-        bcrypt.genSalt(10, (err, salt) => {    
+        bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
             newUser.password = hash;
-            newUser   
+            newUser
               .save()
               .then(user => {
                 req.flash(
@@ -94,13 +94,100 @@ router.post('/register', (req, res) => {
 
 //@desc Logout user
 //@route GET
-router.get('/logout', ( req, res, next) => {
+router.get('/logout', (req, res, next) => {
   // with passport, after login we get a logout method 
-  req.logout((err) =>{
-    if(err) { return next(err)}
+  req.logout((err) => {
+    if (err) { return next(err) }
     req.flash('success_msg', 'You are logged out'),
-    res.redirect('/users/login')
-  }); 
+      res.redirect('/users/login')
+  });
+});
+
+
+// @desc    Process edit form
+// @route   get user/edit/:id
+router.get('/edit/:id', ensureAuth, async (req, res) => {
+  try {
+    const user = await User.findOne({
+      _id: req.params.id,
+    }).lean()
+
+    if (!user) {
+      return res.send('user do not exist')
+    }
+    else {
+      res.render('userUpdate', {
+        user,
+      })
+    }
+  } catch (err) {
+    console.log(err)
+    res.send('something else happen')
+  }
+});
+
+// @desc    Update user 
+// @route   PUT user/edit/:id
+router.put('/:id', ensureAuth, async (req, res) => {
+  try {
+    let user = await User.findById(req.params.id).lean()
+    
+    // TODO: fix, must encrypte password when updating database, not working properly <<
+    // guarantee only adm and owner change user
+    if ( req.user.adm != 'true' || user.user != req.user.id  ) {
+      console.log('adm check', req.user.adm )
+      return res.send(' Not allowed to update others users profile')
+    }
+
+    if (!user) {
+      return res.send('user do not exist')
+    }
+    else {
+      user = await User.findOneAndUpdate({
+        _id: req.params.id
+      },
+        req.body, {
+        new: true,
+        runValidators: true
+      }
+      )
+
+      res.redirect('/')
+    }
+  } catch (err) {
+    console.log(err)
+    console.log('and parameter >>>>>', req.params.id),
+      res.send('something else happen')
+  }
+
+});
+
+
+// @desc    Delete user 
+// @route   Delete user/edit/:id
+router.delete('/:id', ensureAuth, async (req, res) => {
+  try {
+    let user = await User.findById(req.params.id).lean()
+
+    if (!user) {
+      return res.send('user do not exist')
+    }
+    else {
+      user = await User.findOneAndRemove({
+        _id: req.params.id
+      },
+        req.body, {
+        new: true,
+        runValidators: true
+      }
+      )
+      res.redirect('/')
+    }
+
+  } catch (err) {
+    console.log(err)
+    res.send('something else happen')
+  }
 });
 
 module.exports = router;

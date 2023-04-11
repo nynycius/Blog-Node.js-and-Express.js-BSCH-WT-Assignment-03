@@ -16,7 +16,7 @@ const flash = require('connect-flash');
 const methodOverride = require('method-override')
 
 // handlebars Helpers
-const { formatDate, editIcon } = require('./helpers/hbs')
+const { formatDate, editIcon, truncate } = require('./helpers/hbs')
 
 // middleware to be used in tthe nav-bar permissions
 const { ensureAuth, ensureGuest, ensureAdm } = require('./middleware/auth');
@@ -64,6 +64,7 @@ app.engine(
   engine({
     helpers: {
       formatDate,
+      truncate,
       editIcon,
   },
    defaultLayout: 'main', 
@@ -111,6 +112,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
 app.use('/adm', require('./routes/adm'));
+app.use('/blogPost', require('./routes/blogPost'));
 
 const PORT = process.env.PORT || 3000;
 

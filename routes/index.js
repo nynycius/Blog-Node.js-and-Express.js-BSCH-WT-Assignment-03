@@ -27,6 +27,7 @@ router.get('/dashboard', ensureAuth, async (req, res) => {
     try {
       res.render('dashboard', {
        name: req.user.name,  
+       email: req.user.email,
       })
     } catch (err) {
         console.log(err)

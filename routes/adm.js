@@ -9,7 +9,6 @@ const User = require('../models/User');
 const BlogPost = require('../models/BlogPost');
 
 
-// TODO: dashboard with posts and users for edit and delete
 
 // @desc  adm/dashboard
 //@route GET /admDashboard
@@ -45,7 +44,7 @@ router.get('/add', ensureAdm, async (req, res) => {
     }
   });
 
-// @desc    Process add form
+// @desc    Process add blogPost  form
 // @route   POST adm/add
 router.post('/add', ensureAdm, async (req, res) => {
     try {
@@ -59,7 +58,7 @@ router.post('/add', ensureAdm, async (req, res) => {
   });
 
 
-// @desc    Process edit form
+// @desc    Process edit blogPost form
 // @route   POST adm/edit/:id
   router.get('/edit/:id', ensureAdm, async (req, res) => {
     try {
@@ -81,7 +80,7 @@ router.post('/add', ensureAdm, async (req, res) => {
     }
   });
 
-// @desc    Update edit form
+// @desc    Update edit blogPost form
 // @route   PUT adm/edit/:id
 router.put('/:id', ensureAdm, async (req, res) => {
     try {

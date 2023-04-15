@@ -55,26 +55,23 @@
             <p class="text-muted"> {{user.name}} commented on {{formatDate date 'MMMM Do YYYY, h:mm:ss a'}}</p>
             <p><br>{{comment}}</p>
         </div>
-          <div class="cotainer d-flex justify-content-evenly">
 
-            <a href="/blogPost/edit/{{_id}}">
-              <i class="btn btn-success fas fa-edit"> Edit </i> </a>
+        {{!-- This function only display the comment btn for the owner of the comment
+            In the funciton is passed the owner of the comment object and the logged root user object --}}
+        {{{commentIcons user @root.user _id}}}
 
-            <form action="/blogPost/{{_id}}" method="POST" id="delete-form">
-              <input type="hidden" name="_method" value="DELETE">
-              <button type="submit" class="btn red">
-                <i class="btn btn-danger fas fa-trash"> Delete</i>
-              </button>
-            </form>
 
-          </div>
     </div>
     <hr>
+
     {{else}}
 
     <h5>No comments yet, be the first one (You must be logged in to comment)</h5>
 
     {{/each}}
+
+
+
 
 
 

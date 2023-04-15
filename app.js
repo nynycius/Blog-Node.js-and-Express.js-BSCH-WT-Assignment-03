@@ -16,7 +16,7 @@ const flash = require('connect-flash');
 const methodOverride = require('method-override')
 
 // handlebars Helpers
-const { formatDate, editIcon, truncate } = require('./helpers/hbs')
+const { formatDate, commentIcons, truncate, dashboard } = require('./helpers/hbs')
 
 // middleware to be used in tthe nav-bar permissions
 const { ensureAuth, ensureGuest, ensureAdm } = require('./middleware/auth');
@@ -65,7 +65,8 @@ app.engine(
     helpers: {
       formatDate,
       truncate,
-      editIcon,
+      commentIcons,
+      dashboard,
   },
    defaultLayout: 'main', 
    extname: '.hbs',

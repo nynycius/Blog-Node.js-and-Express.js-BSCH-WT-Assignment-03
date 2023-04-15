@@ -104,7 +104,7 @@ router.get('/logout', (req, res, next) => {
 });
 
 
-// @desc    Process edit form
+// @desc    Process edit user infs 
 // @route   get user/edit/:id
 router.get('/edit/:id', ensureAuth, async (req, res) => {
   try {
@@ -126,7 +126,7 @@ router.get('/edit/:id', ensureAuth, async (req, res) => {
   }
 });
 
-// @desc    Update user 
+// @desc    Update user infs (only name and email)
 // @route   PUT user/edit/:id
 router.put('/:id', ensureAdm, async (req, res) => {
   try {
@@ -152,7 +152,7 @@ router.put('/:id', ensureAdm, async (req, res) => {
       }
       )
 
-      res.redirect('/')
+      res.redirect('/adm/dashboard')
     }
   } catch (err) {
     console.log(err)

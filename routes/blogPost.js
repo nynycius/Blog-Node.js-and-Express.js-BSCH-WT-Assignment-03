@@ -88,7 +88,7 @@ router.put('/edit/:id', ensureAuth, async (req, res) => {
       return res.send('comment do not exist')
     }
     console.log(req.user.adm)
-    if (comment.user != req.user.id || req.user.adm === 'false') {
+    if (comment.user != req.user.id ) {
       return res.send(' not your comment, you can only edit your own comments')
     }
     else {
@@ -101,7 +101,7 @@ router.put('/edit/:id', ensureAuth, async (req, res) => {
       }
       )
 
-      res.redirect('/blogSpot/')
+      res.redirect('/blogPost/show/'+comment.blogPost)
     }
   } catch (err) {
     console.log(err)
@@ -132,7 +132,7 @@ router.delete('/:id', ensureAuth, async (req, res) => {
         runValidators: true
       }
       )
-      res.redirect('/blogPost')
+      res.redirect(req.get('referer'))
     }
 
   } catch (err) {
